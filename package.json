@@ -1,0 +1,31 @@
+{
+  "name": "uploads",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsx index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@eslint/js": "^9.11.0",
+    "@types/formidable": "^3.4.5",
+    "express": "^4.21.0",
+    "filesac": "^14.2.0",
+    "formidable": "^3.5.1",
+    "tsx": "^4.19.1"
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "^2.8.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.5",
+    "@typescript-eslint/eslint-plugin": "^8.6.0",
+    "@typescript-eslint/parser": "^8.6.0",
+    "eslint": "^9.11.0",
+    "install": "^0.13.0",
+    "npm": "^10.8.3",
+    "typescript": "^5.6.2"
+  }
+}
