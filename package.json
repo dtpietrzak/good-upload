@@ -1,9 +1,9 @@
 {
   "name": "uploads",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "tsx index.ts",
+    "start": "tsx src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "me",
@@ -17,6 +17,7 @@
     "filesac": "^14.2.0",
     "formidable": "^3.5.1",
     "mime-types": "^2.1.35",
+    "sharp": "^0.33.5",
     "sqlite3": "^5.1.7",
     "tsx": "^4.19.1"
   },
