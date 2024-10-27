@@ -15,25 +15,23 @@ datasource db {
 
 model File {
   // service metadata
-  id   String @id
-  app  String
-  key  String
-  path String @unique
+  id       String @id
+  app      String
+  key      String
+  path     String @unique
+  suffixId String @unique
 
   // analytics
   downloads Int
 
   // file metadata
   filename String
-  fileurl  String @unique
   filetype String
   filesize Int
 
   // data metadata
-  dataurl String @unique
 
   @@index([path])
-  @@index([fileurl])
-  @@index([dataurl])
-  @@index([id, path, fileurl, dataurl])
+  @@index([suffixId])
+  @@index([id, path, suffixId])
 }

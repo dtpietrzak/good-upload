@@ -5,20 +5,18 @@ export type UploadFileDb = {
   key: string;
   id: string;
   path: string;
+  suffixId: string;
 
   downloads: number;
 
   filename: string;
-  fileurl: string;
   filesize: number;
   filetype: string;
-
-  dataurl: string;
 }
 
 export type UploadFile = {
   filename: string;
-  url: string;
+  suffixId: string;
   size: number;
   mimetype: string;
 }

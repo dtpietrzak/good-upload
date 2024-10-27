@@ -73,14 +73,14 @@ const uploadFile: Route = async (req, res, next) => {
           const newFilename = `${file.newFilename}.${mime.extension(file.mimetype)}`
 
           const oldPath = file.filepath
-          const fileUrlPath = `http://localhost:${GLOBAL.PORT}/file/${appName}/${key}/${newFilename}`
-          const dataUrlPath = `http://localhost:${GLOBAL.PORT}/data/${appName}/${key}/${newFilename}`
+          const suffixId = `${appName}/${key}/${newFilename}`
           const newPath = encodeURI(path.resolve(dirPath, newFilename))
 
           if (!isValidFile(file)) throw Error('Invalid file')
 
-          if (LOCK.pathnames.has(newPath)) throw Error('The file you request is already being accessed. Please try again later.')
-          LOCK.pathnames.set(newPath, true)
+          if(!LOCK.pathnames.add(newPath)) {
+            throw Error('The file you request is already being accessed. Please try again later.')
+          }
 
           let process_success = false
           const processedPath = `${oldPath}-processed-temp`
@@ -120,13 +120,11 @@ const uploadFile: Route = async (req, res, next) => {
               app: appName,
               key: key,
               path: newPath,
+              suffixId: suffixId,
 
               filename: file.originalFilename,
-              fileurl: fileUrlPath,
               filesize: file.size,
               filetype: file.mimetype,
-
-              dataurl: dataUrlPath,
             }
             await prisma.file.upsert({
               where: {
@@ -140,7 +138,7 @@ const uploadFile: Route = async (req, res, next) => {
             })
             response.push({
               filename: uploadFile.filename,
-              url: uploadFile.fileurl,
+              suffixId: uploadFile.suffixId,
               mimetype: uploadFile.filetype,
               size: uploadFile.filesize,
             })
@@ -150,13 +148,14 @@ const uploadFile: Route = async (req, res, next) => {
               try {
                 // remove file
                 await fs.promises.unlink(newPath)
+                LOCK.pathnames.free(newPath)
               } catch (error) {
-                LOCK.pathnames.delete(newPath)
+                LOCK.pathnames.free(newPath)
                 console.error(error)
                 throw error
               }
             }
-            LOCK.pathnames.delete(newPath)
+            LOCK.pathnames.free(newPath)
             console.error(error)
             throw error
           }
